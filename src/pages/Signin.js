@@ -11,6 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
+import styled from "styled-components";
 
 const Signin = () => {
 
@@ -25,10 +26,6 @@ const Signin = () => {
         setSignInMaintainStatus(event.target.checked);
     };
 
-    // const underlineLink = styled(Link)
-    //     color: blue;
-
-
     useEffect(() => {
         console.log("value: " + value)
     }, [value])
@@ -36,10 +33,6 @@ const Signin = () => {
     useEffect(() => {
         console.log("signInMaintainStatus: " + signInMaintainStatus)
     }, [signInMaintainStatus])
-
-    useEffect(() => {
-        // get signInMaintainStatus
-    }, [])
 
     return (
         <>
@@ -54,13 +47,35 @@ const Signin = () => {
                 </CardContent>
                 <TextField id="outlined-basic" label="이메일" variant="outlined" />
                 <TextField id="outlined-basic" label="비밀번호" variant="outlined" />
-                <Button variant="contained" disabled>
+
+                {/* 로그인 버튼 : 아이디, 비밀번호 모두 입력될 시 로그인 버튼 활성화 */}
+
+                <Button variant="contained" disabled={false} fullWidth={true} >
                     로그인
                 </Button>
                 <FormGroup>
-                    <FormControlLabel onChange={handleSignInMaintainStatusChange} checked={signInMaintainStatus} control={<Checkbox />} label="로그인 상태 유지" />
+                    <FormControlLabel
+                        onChange={handleSignInMaintainStatusChange}
+                        checked={signInMaintainStatus}
+                        control={<Checkbox />}
+                        label="로그인 상태 유지" />
                 </FormGroup>
-                <CardActions>
+
+                <SignInHelpDiv>
+                    <SignInFindDiv>
+                        <SignInHelpCssDiv marginRight="10px">
+                            아이디 찾기
+                        </SignInHelpCssDiv>
+                        <SignInHelpCssDiv>
+                            비밀번호 찾기
+                        </SignInHelpCssDiv>
+                    </SignInFindDiv>
+                    <SignInHelpCssDiv>
+                        회원가입
+                    </SignInHelpCssDiv>
+                </SignInHelpDiv>
+
+                {/* <CardActions>
                     <Link href="https://member.daum.net/find/id.do?action=home" underline="always">
                         {'아이디 찾기'}
                     </Link>
@@ -71,16 +86,7 @@ const Signin = () => {
                         {'회원가입'}
                     </Link>
 
-                    {/* style component  */}
-                    {/* <div>
-                            <body>
-                                <h1 style="color:blue; text-decoration: underline;">
-                                    아이디 찾기
-                                </h1>
-                            </body> 
-                    </div> */}
-
-                </CardActions>
+                </CardActions> */}
             </Card>
             <Box
                 component="form"
@@ -90,11 +96,27 @@ const Signin = () => {
                 noValidate
                 autoComplete="off"
             >
-                <TextField id="outlined-basic" label="이메일" variant="outlined" value={value} onChange={handleChange} />
+
             </Box>
         </>
     )
 };
+
+const SignInHelpDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    color: blue;
+    text-decoration: underline;
+`;
+
+const SignInFindDiv = styled.div`
+    display: flex;  
+    justify-content: space-between;
+`;
+
+const SignInHelpCssDiv = styled.div`
+    margin-right: ${props => props.marginRight !== undefined ? props.marginRight : "0px"};
+`;
 
 export default Signin;
 
