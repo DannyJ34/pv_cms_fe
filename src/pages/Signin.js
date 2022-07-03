@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
@@ -11,17 +10,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import styled from "styled-components";
 
 const Signin = () => {
-
-    const [value, setValue] = useState("");
     const [signInMaintainStatus, setSignInMaintainStatus] = useState(false);
+    const [signInButton, setSignInButton] = useState(true);
 
     const handleSignInMaintainStatusChange = (event) => {
         setSignInMaintainStatus(event.target.checked);
     };
 
-    useEffect(() => {
-        console.log("value: " + value)
-    }, [value])
+    //     const handleSignInButton = (TextField.label) => {
+    //     setSignInButton(signInButton = "이메일" && "비밀번호" == filled ? false : true);
+    // }
 
     useEffect(() => {
         console.log("signInMaintainStatus: " + signInMaintainStatus)
@@ -29,42 +27,43 @@ const Signin = () => {
 
     return (
         <CardPositionDiv>
-            <Card sx={{ maxWidth: 408 }} >
+            <Card sx={{ maxWidth: 408 }}>
                 <CardContent>
                     <Typography
                         gutterBottom variant="h5"
                         component="div"
-                        style={{ marginBottom: "0px" }}
+                        sx={{ mb: "0px" }}
                     >
                         Sign in
                     </Typography>
                     <Typography
                         variant="body2"
                         color="text.secondary"
-                        style={{ marginBottom: "10px" }}
+                        sx={{ mb: "10px" }}
                     >
                         PortValue에 오신걸 환영합니다🎉
                     </Typography>
                 </CardContent>
-
                 <TextField
                     id="outlined-basic"
                     label="이메일"
                     variant="outlined"
-                    style={{
+                    required
+                    sx={{
                         width: "376px",
-                        marginLeft: "16px",
-                        marginBottom: "12px"
+                        ml: "16px",
+                        mb: "12px"
                     }}
                 />
                 <TextField
                     id="outlined-basic"
                     label="비밀번호"
                     variant="outlined"
-                    style={{
+                    required
+                    sx={{
                         width: "376px",
-                        marginLeft: "16px",
-                        marginBottom: "16px"
+                        ml: "16px",
+                        mb: "16px"
                     }}
                 />
 
@@ -73,11 +72,11 @@ const Signin = () => {
                 <Button
                     variant="contained"
                     disabled={true}
-                    style={{
+                    sx={{
                         width: "376px",
                         height: "40px",
-                        marginLeft: "16px",
-                        marginBottom: "4px"
+                        ml: "16px",
+                        mb: "4px"
                     }}
                 >
                     로그인
@@ -88,9 +87,7 @@ const Signin = () => {
                         checked={signInMaintainStatus}
                         control={<Checkbox />}
                         label="로그인 상태 유지"
-                        style={{
-                            marginLeft: "6px",
-                        }}
+                        sx={{ ml: "6px" }}
                     />
                 </FormGroup>
 
@@ -115,10 +112,10 @@ const Signin = () => {
 
 const CardPositionDiv = styled.div`
     display: flex;
-    justify-content: center;
-    margin-top: 160px;
-    // align-items: center; 안되는 이유가 뭘까??
-    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 const SignInHelpDiv = styled.div`
