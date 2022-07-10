@@ -11,19 +11,43 @@ import styled from "styled-components";
 
 const Signin = () => {
     const [signInMaintainStatus, setSignInMaintainStatus] = useState(false);
-    const [signInButton, setSignInButton] = useState(true);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [disabled, setDisabled] = useState(true);
+    const [errFromEmail, setErrFromEmail] = useState(false);
+    const [errFromPassword, setErrFromPassword] = useState(false);
 
     const handleSignInMaintainStatusChange = (event) => {
         setSignInMaintainStatus(event.target.checked);
     };
 
-    //     const handleSignInButton = (TextField.label) => {
-    //     setSignInButton(signInButton = "이메일" && "비밀번호" == filled ? false : true);
-    // }
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const signInInfoSummit = () => {
+        console.log(email)
+        console.log(password)
+        console.log(signInMaintainStatus)
+        // TODO: 여기 어딘가에서 서버로부터 사인인에 대한 결과를 받아야함
+
+        // 아이디가 없을 때
+        // setErrFromEmail(true)
+        // 아이디는 있는데 비밀번호가 다를 때
+        // setErrFromPassword(true)
+    }
 
     useEffect(() => {
-        console.log("signInMaintainStatus: " + signInMaintainStatus)
-    }, [signInMaintainStatus])
+        if (email !== "" && password !== "") {
+            setDisabled(false)
+        } else {
+            setDisabled(true)
+        }
+    }, [email, password])
 
     return (
         <CardPositionDiv>
@@ -47,8 +71,13 @@ const Signin = () => {
                 <TextField
                     id="outlined-basic"
                     label="이메일"
+                    name="email"
                     variant="outlined"
                     required
+                    value={email}
+                    onChange={handleEmailChange}
+                    error={errFromEmail}
+                    helperText={errFromEmail ? "등록된 계정이 없습니다. ID를 확인해주세요." : ""}
                     sx={{
                         width: "376px",
                         ml: "16px",
@@ -58,8 +87,13 @@ const Signin = () => {
                 <TextField
                     id="outlined-basic"
                     label="비밀번호"
+                    name="password"
                     variant="outlined"
                     required
+                    value={password}
+                    onChange={handlePasswordChange}
+                    error={errFromPassword}
+                    helperText={errFromPassword ? "비밀번호를 확인해주세요." : ""}
                     sx={{
                         width: "376px",
                         ml: "16px",
@@ -71,7 +105,8 @@ const Signin = () => {
 
                 <Button
                     variant="contained"
-                    disabled={true}
+                    onClick={() => signInInfoSummit()}
+                    disabled={disabled}
                     sx={{
                         width: "376px",
                         height: "40px",
