@@ -49,7 +49,7 @@ const Signin = () => {
     }
 
     useEffect(() => {
-        if (email && password !== "") {
+        if (email !== "" && password !== "") {
             setDisabled(false)
         } else {
             setDisabled(true)

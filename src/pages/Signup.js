@@ -6,12 +6,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import styled from "styled-components";
-
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -20,7 +22,8 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordValue, setShowPasswordValue] = useState({ showPassword: false });
+    //const [showPassword, setShowPassword] = useState(false);
     const [birthdate, setBirthdate] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [disabled, setDisabled] = useState(true);
@@ -30,7 +33,7 @@ const Signup = () => {
     };
 
     const [errFromEmail, setErrFromEmail] = useState(false);
-    const [errFromConfirmPassword, setErrFromConfirmPassword] = useState(false);
+    const [errFromConfirmPassword, setErrFromConfirmPassword] = useState("");
     const [errFromBirthdate, setErrFromBirthdate] = useState(false);
     const [errFromPhoneNumber, setErrFromPhoneNumber] = useState(false);
 
@@ -50,8 +53,19 @@ const Signup = () => {
         setConfirmPassword(event.target.value);
     };
 
-    const handleShowPassword = (event) => {
-        setConfirmPassword(event.target.value);
+    const handleShowPassword = () => {
+        setShowPasswordValue({
+            showPassword: !showPasswordValue.showPassword
+        });
+    };
+    // //const handleShowPassword = () => {
+    //     setShowPassword({
+    //         showPassword: !showPassword
+    //     });
+    // }; 이렇게 객체가 되는 경우를 방지하는 방법이 또 무엇이 있는지?
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
     };
 
     const handleBirthdateChange = (event) => {
@@ -63,18 +77,21 @@ const Signup = () => {
     };
 
     const signUpInfoSummit = () => {
-        console.log("email: " + email)
+        // console.log("email: " + email)
         console.log("password: " + password)
-        console.log("errFromBirthdate: " + errFromBirthdate)
-        console.log("birthdate.length: " + birthdate.length)
-        console.log("errFromPhoneNumber: " + errFromPhoneNumber)
-        console.log("phoneNumber.length: " + phoneNumber.length)
-
+        console.log("confirmPassword: " + confirmPassword)
+        // console.log("errFromBirthdate: " + errFromBirthdate)
+        // console.log("birthdate.length: " + birthdate.length)
+        // console.log("errFromPhoneNumber: " + errFromPhoneNumber)
+        // console.log("phoneNumber.length: " + phoneNumber.length)
+        console.log("errFromConfirmPassword: " + errFromConfirmPassword)
+        // console.log(showPasswordValue)
 
         if (confirmPassword !== password)
-            setErrFromConfirmPassword(true)
+            setErrFromConfirmPassword("비밀번호가 일치하지 않습니다.")
         else
-            setErrFromConfirmPassword(false);
+            setErrFromConfirmPassword("");
+        //공백이 아니면 true라는 점을 기반으로 코드를 짠 경우.
 
         if (birthdate.length !== 8)
             setErrFromBirthdate(true)
@@ -90,11 +107,26 @@ const Signup = () => {
     }
 
     useEffect(() => {
-        if (managerName !== "" && email !== "" && password !== "" && confirmPassword !== "" && birthdate !== "" && phoneNumber !== "")
+        if (managerName !== "" &&
+            email !== "" &&
+            password !== "" &&
+            confirmPassword !== "" &&
+            birthdate !== "" &&
+            phoneNumber !== ""
+        )
             setDisabled(false)
         else
             setDisabled(true)
     }, [managerName, email, password, confirmPassword, birthdate, phoneNumber])
+
+    useEffect(() => {
+        // if (showPassword == 0)
+        //     setShowPassword(true)
+        // else
+        //     setShowPassword(false)
+
+        console.log("showPasswordValue: ", showPasswordValue.showPassword)
+    }, [showPasswordValue.showPassword])
 
     return (
         <CardPositionDiv>
@@ -122,7 +154,6 @@ const Signup = () => {
                     variant="outlined"
                     type="text"
                     required
-                    type="string"
                     value={managerName}
                     onChange={handleManagerNameChange}
                     sx={{
@@ -133,7 +164,7 @@ const Signup = () => {
                 />
                 <TextField
                     id="outlined-basic"
-                    label="이메일(ex. abc@naver.com)"
+                    label="이메일"
                     name="email"
                     variant="outlined"
                     required
@@ -147,68 +178,85 @@ const Signup = () => {
                         mb: "12px"
                     }}
                 />
-                {/* <FormControl
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    label="비밀번호"
-                    name="password"
+                <FormControl
                     variant="outlined"
                     required
-                    value={password}
-                    onChange={handlePasswordChange}
                     sx={{
                         width: "376px",
                         ml: "16px",
-                        mb: "16px"
+                        mb: "12px"
                     }}
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleShowPassword}
-                                edge="end"
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                /> */}
-                <TextField
-                    id="outlined-basic"
-                    label="비밀번호"
-                    name="password"
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">비밀번호</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showPasswordValue.showPassword ? 'text' : 'password'}
+                        name="password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPasswordValue.showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        label="비밀번호"
+                    />
+                </FormControl>
+                <FormControl
                     variant="outlined"
                     required
-                    value={password}
-                    onChange={handlePasswordChange}
-                    sx={{
-                        width: "376px",
-                        ml: "16px",
-                        mb: "16px"
-                    }}
-                />
-                <TextField
-                    id="outlined-basic"
-                    label="비밀번호 확인"
-                    name="confirmPassword"
-                    variant="outlined"
-                    required
-                    value={confirmPassword}
-                    onChange={handleConfirmPasswordChange}
                     error={errFromConfirmPassword}
                     helperText={errFromConfirmPassword ? "비밀번호가 일치하지 않습니다." : ""}
                     sx={{
                         width: "376px",
                         ml: "16px",
-                        mb: "16px"
+                        mb: "12px"
                     }}
-                />
+                >
+                    <InputLabel htmlFor="outlined-adornment-password">비밀번호 확인</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showPasswordValue.showPassword ? 'text' : 'password'}
+                        name="confirmPassword"
+                        aria-describedby="outlined-helper-text"
+                        value={confirmPassword}
+                        onChange={handleConfirmPasswordChange}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPasswordValue.showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+
+                        label="비밀번호 확인"
+                    />
+                    <FormHelperText
+                        id="outlined-helper-text"
+                    >
+                        {errFromConfirmPassword}
+                    </FormHelperText>
+                </FormControl>
                 <TextField
                     id="outlined-basic"
                     label="생년월일(8자리)"
                     name="birthdate"
                     variant="outlined"
                     required
+                    // type="number"
+                    //     type number와 maxlength는 같이 사용 못 함 (참고 링크: https://cofs.tistory.com/215)
                     value={birthdate}
                     onChange={handleBirthdateChange}
                     error={errFromBirthdate}
@@ -230,6 +278,7 @@ const Signup = () => {
                     name="PhoneNumber"
                     variant="outlined"
                     required
+                    type="tel"
                     value={phoneNumber}
                     onChange={handlePhoneNumberChange}
                     error={errFromPhoneNumber}
