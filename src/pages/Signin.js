@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -10,6 +11,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import styled from "styled-components";
 
 const Signin = () => {
+    const navigate = useNavigate();
+
     const [signInMaintainStatus, setSignInMaintainStatus] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,8 +20,8 @@ const Signin = () => {
     const [errFromEmail, setErrFromEmail] = useState(false);
     const [errFromPassword, setErrFromPassword] = useState(false);
 
-    const handleSignInMaintainStatusChange = (event) => {
-        setSignInMaintainStatus(event.target.checked);
+    const handleClickToSU = () => {
+        navigate('/signup')
     };
 
     const handleEmailChange = (event) => {
@@ -27,6 +30,10 @@ const Signin = () => {
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
+    };
+
+    const handleSignInMaintainStatusChange = (event) => {
+        setSignInMaintainStatus(event.target.checked);
     };
 
     const signInInfoSummit = () => {
@@ -42,7 +49,7 @@ const Signin = () => {
     }
 
     useEffect(() => {
-        if (email !== "" && password !== "") {
+        if (email && password !== "") {
             setDisabled(false)
         } else {
             setDisabled(true)
@@ -135,7 +142,7 @@ const Signin = () => {
                             비밀번호 찾기
                         </SignInHelpCssDiv>
                     </SignInFindDiv>
-                    <SignInHelpCssDiv>
+                    <SignInHelpCssDiv onClick={handleClickToSU}>
                         회원가입
                     </SignInHelpCssDiv>
                 </SignInHelpDiv>
