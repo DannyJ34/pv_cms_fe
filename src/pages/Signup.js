@@ -58,6 +58,7 @@ const Signup = () => {
             showPassword: !showPasswordValue.showPassword
         });
     };
+
     // //const handleShowPassword = () => {
     //     setShowPassword({
     //         showPassword: !showPassword
@@ -77,15 +78,7 @@ const Signup = () => {
     };
 
     const signUpInfoSummit = () => {
-        // console.log("email: " + email)
-        console.log("password: " + password)
-        console.log("confirmPassword: " + confirmPassword)
-        // console.log("errFromBirthdate: " + errFromBirthdate)
-        // console.log("birthdate.length: " + birthdate.length)
-        // console.log("errFromPhoneNumber: " + errFromPhoneNumber)
-        // console.log("phoneNumber.length: " + phoneNumber.length)
-        console.log("errFromConfirmPassword: " + errFromConfirmPassword)
-        // console.log(showPasswordValue)
+
 
         if (confirmPassword !== password)
             setErrFromConfirmPassword("비밀번호가 일치하지 않습니다.")
@@ -103,6 +96,8 @@ const Signup = () => {
         else
             setErrFromPhoneNumber(false);
 
+
+
         // TODO: 서버로부터 Signup에 대한 이메일 중복확인을 받아야함
     }
 
@@ -118,15 +113,6 @@ const Signup = () => {
         else
             setDisabled(true)
     }, [managerName, email, password, confirmPassword, birthdate, phoneNumber])
-
-    useEffect(() => {
-        // if (showPassword == 0)
-        //     setShowPassword(true)
-        // else
-        //     setShowPassword(false)
-
-        console.log("showPasswordValue: ", showPasswordValue.showPassword)
-    }, [showPasswordValue.showPassword])
 
     return (
         <CardPositionDiv>
